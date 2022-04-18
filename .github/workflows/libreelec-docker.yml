@@ -24,6 +24,7 @@ jobs:
           docker build --pull -t libreelec tools/docker/focal
       - name: Build LE at docker image
         run: |
+          cd LibreELEC.tv
           echo "ls: $(ls)"
           echo "pwd: $(pwd)"
           echo "id: $(id)"
