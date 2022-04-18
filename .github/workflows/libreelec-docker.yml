@@ -31,7 +31,7 @@ jobs:
           echo "id: $(id)"
           echo "whoami: $(whoami)"
           echo "docker images: $(docker images)"
-          docker run --rm -v `pwd`:/build -w /build -i -e PROJECT=Generic -e ARCH=x86_64 -e ONELOG=no -e LOGCOMBINE=never libreelec make image
+          docker run --rm -v `pwd`:/build -w /build -i -e PROJECT=Generic -e ARCH=x86_64 libreelec make image
       - name: 📂 Upload files to server
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
