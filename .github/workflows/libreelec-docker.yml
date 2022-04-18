@@ -3,7 +3,7 @@ on:
   # allows to run this workflow manually from the actions tab
   workflow_dispatch:
 env:
-  TZ: Europe/London
+  TZ: Australia/Melbourne
 
 jobs:
   build_libreelec:
@@ -21,6 +21,7 @@ jobs:
           ls
           pwd
           cd LibreELEC.tv
+          sed -i -e "s/RUN adduser/RUN adduser --uid $(id -u)/" tools/docker/focal/Dockerfile
           docker build --pull -t libreelec tools/docker/focal
       - name: Build LE at docker image
         run: |
@@ -30,7 +31,6 @@ jobs:
           echo "id: $(id)"
           echo "whoami: $(whoami)"
           echo "docker images: $(docker images)"
-          sudo chmod -R  777 ./
           docker run --rm -v `pwd`:/build -w /build -i -e PROJECT=Generic -e ARCH=x86_64 -e ONELOG=no -e LOGCOMBINE=never libreelec make image
       - name: 📂 Upload files to server
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
