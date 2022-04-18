@@ -1,0 +1,42 @@
+name: libreelec-docker
+on:
+  # allows to run this workflow manually from the actions tab
+  workflow_dispatch:
+env:
+  TZ: Europe/London
+
+jobs:
+  build_libreelec:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+          fetch-depth: 2
+          repository: "LibreELEC/LibreELEC.tv"
+          path: "LibreELEC.tv"
+      - name: Create LE docker image
+        run: |
+          ls
+          pwd
+          cd LibreELEC.tv
+          docker build --pull -t libreelec tools/docker/focal
+      - name: Build LE at docker image
+        run: |
+          ls
+          pwd
+          docker images
+          pwd
+          sudo chmod -R  777 ./
+          docker run --rm -v `pwd`:/build -i -e PROJECT=Generic -e ARCH=x86_64 -e ONELOG=no -e LOGCOMBINE=never make image
+      - name: 📂 Upload files to server
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.ftp_server }}
+          username: ${{ secrets.ftp_username }}
+          password: ${{ secrets.ftp_password }}
+          port: ${{ secrets.ftp_port }}
+          protocol: ${{ secrets.ftp_protocol }}
+          local-dir: ${{ secrets.ftp_local-dir }}
+          server-dir: ${{ secrets.ftp_server-dir }}
