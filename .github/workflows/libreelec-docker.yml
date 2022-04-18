@@ -29,7 +29,7 @@ jobs:
           docker images
           pwd
           sudo chmod -R  777 ./
-          docker run --rm -v `pwd`:/build -i -e PROJECT=Generic -e ARCH=x86_64 -e ONELOG=no -e LOGCOMBINE=never make image
+          docker run --rm -v `pwd`:/build -w /build -e PROJECT=Generic -e ARCH=x86_64 -e ONELOG=no -e LOGCOMBINE=never libreelec make image
       - name: 📂 Upload files to server
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
