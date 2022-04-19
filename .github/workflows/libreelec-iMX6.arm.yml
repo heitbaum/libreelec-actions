@@ -1,0 +1,68 @@
+name: libreelec-iMX6.arm
+on:
+  # allows to run this workflow manually from the actions tab
+  workflow_dispatch:
+env:
+  TZ: Australia/Melbourne
+
+concurrency: 
+  group: iMX6.arm
+  cancel-in-progress: false
+
+jobs:
+  build_libreelec:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+          fetch-depth: 2
+          repository: "LibreELEC/LibreELEC.tv"
+          path: "LibreELEC.tv"
+      - name: Create LE docker image
+        run: |
+          ls
+          pwd
+          cd LibreELEC.tv
+          sed -i -e "s/RUN adduser/RUN adduser --uid $(id -u)/" tools/docker/focal/Dockerfile
+          docker build --pull -t gh-libreelec tools/docker/focal
+      - name: Prepare the LibreELEC.tv directory
+        run: |
+          cd LibreELEC.tv
+          # create links that will be used from within the docker containers
+          [ ! -h sources ] && ln -s /sources .
+          [ ! -h target ] && ln -s /target .
+          echo "pwd: $(pwd)"
+          echo "id: $(id)"
+          echo "whoami: $(whoami)"
+          echo "docker images: $(docker images)"
+          echo "ls: $(ls -la)"
+          echo "ls: $(ls -la packages/devel/automake/patches)"
+      - name: Clean LE at docker image
+        run: |
+          rm -rf /var/media/DATA/github-actions/build-root/build.LibreELEC-iMX6.arm-11.0-devel/.stamps
+          rm -rf /var/media/DATA/github-actions/build-root/build.LibreELEC-iMX6.arm-11.0-devel/*
+          echo "ls: $(ls -la /var/media/DATA/github-actions/build-root/build.LibreELEC-iMX6.arm-11.0-devel)"
+      - name: Build LE at docker image
+        run: |
+          cd LibreELEC.tv
+          docker run --rm -v /var/media/DATA/github-actions/sources:/sources \
+                          -v /var/media/DATA/github-actions/target:/target \
+                          -v /var/media/DATA/github-actions/build-root:/build-root \
+                          -v `pwd`:/build \
+                          -w /build -i \
+                          -e PROJECT=NXP \
+                          -e ARCH=arm \
+                          -e DEVICE=iMX6 \
+                          -e ONELOG=no -e LOGCOMBINE=never \
+                          -e BUILD_DIR=/build-root \
+                          gh-libreelec make image
+      - name: Upload
+        run: |
+          echo "${{ secrets.KEY }}" > mykey.ssh
+          chmod 600 mykey.ssh
+          scp -i mykey.ssh -o "StrictHostKeyChecking no" \
+              -P ${{ secrets.PORT }} \
+              -p /var/media/DATA/github-actions/target/addon.zip \
+              ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ secrets.UPLOAD_TARGET }}
