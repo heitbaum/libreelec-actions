@@ -26,6 +26,8 @@ jobs:
           pwd
           cd LibreELEC.tv
           sed -i -e "s/RUN adduser/RUN adduser --uid $(id -u)/" tools/docker/focal/Dockerfile
+          # workaround below until buildsystem does not require local cc
+          sed -i -e "/^USER docker/i RUN ln -s /usr/bin/gcc-10 /usr/bin/cc" tools/docker/focal/Dockerfile
           docker build --pull -t gh-libreelec tools/docker/focal
       - name: Prepare the LibreELEC.tv directory
         run: |
@@ -38,7 +40,6 @@ jobs:
           echo "whoami: $(whoami)"
           echo "docker images: $(docker images)"
           echo "ls: $(ls -la)"
-          echo "ls: $(ls -la packages/devel/automake/patches)"
       - name: Clean LE at docker image
         run: |
           rm -rf /var/media/DATA/github-actions/build-root/build.LibreELEC-ARMv8.arm-11.0-devel/.stamps
