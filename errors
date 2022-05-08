@@ -17,7 +17,7 @@ FAILED ADDONS:
 
 ARMv8
 
-docker: /build-root/build.LibreELEC-ARMv8.arm-11.0-devel/.threads/logs/233.log
+    docker: /build-root/build.LibreELEC-ARMv8.arm-11.0-devel/.threads/logs/233.log
     syncthing: /build-root/build.LibreELEC-ARMv8.arm-11.0-devel/.threads/logs/359.log
     audiodecoder.fluidsynth: /build-root/build.LibreELEC-ARMv8.arm-11.0-devel/.threads/logs/463.log
     game.libretro.atari800: /build-root/build.LibreELEC-ARMv8.arm-11.0-devel/.threads/logs/501.log
