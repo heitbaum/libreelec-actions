@@ -16,3 +16,16 @@ libreelec-Generic-legacy.x86_64-addons-chrome
 
 FAILED ADDONS:
     chrome: /build-root/build.LibreELEC-Generic-legacy.x86_64-11.0-devel/.threads/logs/146.log
+
+
+###
+
+Compiling futures-core v0.3.16
+error: linker `cc` not found
+  |
+  = note: No such file or directory (os error 2)
+
+error: could not compile `libm` due to previous error
+
+###
+
