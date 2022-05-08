@@ -1,7 +1,12 @@
 ### Ideas - something for the future
 - I could be smarter and build the docker base that is then subsequently used with the .config ???
-- use concurrecy groups to stop same build target concurrency builds. 
-  - https://github.blog/changelog/2021-04-19-github-actions-limit-workflow-run-or-job-concurrency/
+- ~use concurrecy groups to stop same build target concurrency builds.~
+  - ~https://github.blog/changelog/2021-04-19-github-actions-limit-workflow-run-or-job-concurrency/~
+  - ~DONE~
+- do the nightly runs
+  - https://stackoverflow.com/questions/63014786/how-to-schedule-a-github-actions-nightly-build-but-run-it-only-when-there-where
+- how to spawn all the workflows
+  - 
 
 ### Current status / things to understand / work though
 - there is only 1 (shared) build-root (dont buiuld the same architecture at the same time - it will lock / fail)
