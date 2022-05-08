@@ -17,18 +17,12 @@ libreelec-Generic-legacy.x86_64-addons-chrome
 FAILED ADDONS:
     chrome: /build-root/build.LibreELEC-Generic-legacy.x86_64-11.0-devel/.threads/logs/146.log
 
+ARMv8
 
-###
+docker: /build-root/build.LibreELEC-ARMv8.arm-11.0-devel/.threads/logs/233.log
+    syncthing: /build-root/build.LibreELEC-ARMv8.arm-11.0-devel/.threads/logs/359.log
+    audiodecoder.fluidsynth: /build-root/build.LibreELEC-ARMv8.arm-11.0-devel/.threads/logs/463.log
+    game.libretro.atari800: /build-root/build.LibreELEC-ARMv8.arm-11.0-devel/.threads/logs/501.log
+    game.libretro.sameboy: /build-root/build.LibreELEC-ARMv8.arm-11.0-devel/.threads/logs/571.log
 
-Compiling futures-core v0.3.16
-error: linker `cc` not found
-  |
-  = note: No such file or directory (os error 2)
 
-error: could not compile `libm` due to previous error
-
-###
-
-add this to addons builder
-
-RUN ln -s /usr/bin/gcc-10 /usr/bin/cc
