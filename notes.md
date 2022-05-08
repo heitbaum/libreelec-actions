@@ -6,7 +6,12 @@
 - do the nightly runs
   - https://stackoverflow.com/questions/63014786/how-to-schedule-a-github-actions-nightly-build-but-run-it-only-when-there-where
 - how to spawn all the workflows
-  - 
+  - use workflow_dispatch
+  - github actions workflow dispatch
+  - https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
+  - https://github.blog/2022-02-10-using-reusable-workflows-github-actions/
+- reusable workflows
+  - https://yonatankra.com/7-github-actions-tricks-i-wish-i-knew-before-i-started/
 
 ### Current status / things to understand / work though
 - there is only 1 (shared) build-root (dont buiuld the same architecture at the same time - it will lock / fail)
