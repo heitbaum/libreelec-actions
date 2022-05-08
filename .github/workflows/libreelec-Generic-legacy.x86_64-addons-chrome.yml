@@ -27,7 +27,7 @@ jobs:
           cd LibreELEC.tv
           sed -i -e "s/RUN adduser/RUN adduser --uid $(id -u)/" tools/docker/focal/Dockerfile
           sed -i -e 's/^CCACHE_CACHE_SIZE=.*/CCACHE_CACHE_SIZE="30G"/' config/options
-          docker build --pull -t gh-libreelec tools/docker/focal
+          docker build --pull -t gh-${{ github.run_id }} tools/docker/focal
       - name: Prepare the LibreELEC.tv directory
         run: |
           cd LibreELEC.tv
@@ -57,7 +57,7 @@ jobs:
                           -e DEVICE=Generic-legacy \
                           -e ONELOG=no -e LOGCOMBINE=never \
                           -e BUILD_DIR=/build-root \
-                          gh-libreelec scripts/create_addon chrome
+                          gh-${{ github.run_id }} scripts/create_addon chrome
       - name: Upload
         run: |
           echo "${{ secrets.KEY }}" > mykey.ssh

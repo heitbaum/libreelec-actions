@@ -26,7 +26,7 @@ jobs:
           pwd
           cd LibreELEC.tv
           sed -i -e "s/RUN adduser/RUN adduser --uid $(id -u)/" tools/docker/focal/Dockerfile
-          docker build --pull -t gh-libreelec tools/docker/focal
+          docker build --pull -t gh-${{ github.run_id }} tools/docker/focal
       - name: Prepare the LibreELEC.tv directory
         run: |
           cd LibreELEC.tv
@@ -56,7 +56,7 @@ jobs:
                           -e DEVICE=iMX6 \
                           -e ONELOG=no -e LOGCOMBINE=never \
                           -e BUILD_DIR=/build-root \
-                          gh-libreelec make image
+                          gh-${{ github.run_id }} make image
       - name: Upload
         run: |
           echo "${{ secrets.KEY }}" > mykey.ssh
