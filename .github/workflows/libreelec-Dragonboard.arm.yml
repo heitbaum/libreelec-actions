@@ -38,7 +38,6 @@ jobs:
           echo "whoami: $(whoami)"
           echo "docker images: $(docker images)"
           echo "ls: $(ls -la)"
-          echo "ls: $(ls -la packages/devel/automake/patches)"
       - name: Clean LE at docker image
         run: |
           rm -rf /var/media/DATA/github-actions/build-root/build.LibreELEC-Dragonboard.arm-11.0-devel/.stamps
