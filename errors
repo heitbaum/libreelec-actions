@@ -29,3 +29,6 @@ error: could not compile `libm` due to previous error
 
 ###
 
+add this to addons builder
+
+RUN ln -s /usr/bin/gcc-10 /usr/bin/cc
