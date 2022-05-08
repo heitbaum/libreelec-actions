@@ -6,6 +6,8 @@
 - do the nightly runs
   - https://stackoverflow.com/questions/63014786/how-to-schedule-a-github-actions-nightly-build-but-run-it-only-when-there-where
 - how to spawn all the workflows
+  - use workflow_run
+    - https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_run
   - use workflow_dispatch
   - github actions workflow dispatch
   - https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
