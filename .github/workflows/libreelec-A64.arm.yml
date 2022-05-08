@@ -2,6 +2,9 @@ name: libreelec-A64.arm
 on:
   # allows to run this workflow manually from the actions tab
   workflow_dispatch:
+  workflow_run:
+    workflows: [libreelec-nightly]
+    types: [completed]
 env:
   TZ: Australia/Melbourne
 
