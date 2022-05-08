@@ -26,6 +26,7 @@ jobs:
           pwd
           cd LibreELEC.tv
           sed -i -e "s/RUN adduser/RUN adduser --uid $(id -u)/" tools/docker/focal/Dockerfile
+          sed -i -e 's/^CCACHE_CACHE_SIZE=.*/CCACHE_CACHE_SIZE="30G"/' config/options
           docker build --pull -t gh-libreelec tools/docker/focal
       - name: Prepare the LibreELEC.tv directory
         run: |
@@ -38,7 +39,6 @@ jobs:
           echo "whoami: $(whoami)"
           echo "docker images: $(docker images)"
           echo "ls: $(ls -la)"
-          echo "ls: $(ls -la packages/devel/automake/patches)"
       - name: Clean LE at docker image
         run: |
           rm -rf /var/media/DATA/github-actions/build-root/build.LibreELEC-Generic-legacy.x86_64-11.0-devel/.stamps
