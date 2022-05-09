@@ -26,6 +26,9 @@ jobs:
           pwd
           cd LibreELEC.tv
           sed -i -e "s/RUN adduser/RUN adduser --uid $(id -u)/" tools/docker/focal/Dockerfile
+          # workaround below until buildsystem does not require local cc
+          #sed -i -e "/^USER docker/i RUN ln -s /usr/bin/gcc-10 /usr/bin/cc" tools/docker/focal/Dockerfile
+          #sed -i -e 's/^CCACHE_CACHE_SIZE=.*/CCACHE_CACHE_SIZE="30G"/' config/options
           docker build --pull -t gh-${{ github.run_id }} tools/docker/focal
       - name: Prepare the LibreELEC.tv directory
         run: |
@@ -57,6 +60,7 @@ jobs:
                           -e ONELOG=no -e LOGCOMBINE=never \
                           -e BUILD_DIR=/build-root \
                           gh-${{ github.run_id }} make image
+          docker image rm -f gh-${{ github.run_id }}
       - name: Upload
         run: |
           echo "${{ secrets.KEY }}" > mykey.ssh
