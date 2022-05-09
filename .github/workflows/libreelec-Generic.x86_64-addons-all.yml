@@ -58,7 +58,9 @@ jobs:
                           -v `pwd`:/build \
                           -w /build -i \
                           -e PROJECT=Generic \
-                          -e ARCH=x86_64 -e ONELOG=no -e LOGCOMBINE=never \
+                          -e ARCH=x86_64 \
+                          -e DEVICE=Generic \
+                          -e ONELOG=no -e LOGCOMBINE=never \
                           -e BUILD_DIR=/build-root \
                           gh-${{ github.run_id }} scripts/create_addon all -chrome
           docker image rm -f gh-${{ github.run_id }}
