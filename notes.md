@@ -16,6 +16,11 @@
   - https://github.blog/2022-02-10-using-reusable-workflows-github-actions/
 - reusable workflows
   - https://yonatankra.com/7-github-actions-tricks-i-wish-i-knew-before-i-started/
+- other stuff: / subworkflow / actions
+  - https://github.com/actions/runner/discussions/1419?msclkid=b3843972cf3711ecbe5439078f5daf4c
+  - https://github.github.io/actions-cheat-sheet/actions-cheat-sheet.pdf
+  - https://www.bing.com/search?q=github+%22uses%22+same+repository&cvid=60fe0aef5c1549db9efa12bca84795ea&aqs=edge..69i57j69i64l2.15260j0j1&FORM=ANAB01&PC=U531
+  - https://docs.github.com/en/actions/using-workflows/reusing-workflows#creating-a-reusable-workflow
 
 ### Current status / things to understand / work though
 - there is only 1 (shared) build-root (dont buiuld the same architecture at the same time - it will lock / fail)
