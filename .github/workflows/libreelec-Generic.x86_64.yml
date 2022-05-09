@@ -8,6 +8,11 @@ on:
         default: false
         required: false
         type: boolean
+      upload_to_release:
+        description: 'Upload the images to the release server'
+        default: false
+        required: false
+        type: boolean
 
   workflow_run:
     workflows: [libreelec-nightly]
@@ -18,9 +23,15 @@ on:
         default: false
         required: false
         type: boolean
+      upload_to_release:
+        description: 'Upload the images to the release server'
+        default: false
+        required: false
+        type: boolean
 
 env:
   TZ: Australia/Melbourne
+  BASEDIR: /var/media/DATA/github-actions
 
 concurrency: 
   group: Generic.x86_64
@@ -61,15 +72,15 @@ jobs:
       - name: Clean LE at docker image
         if: ${{ inputs.clean_le == true }}
         run: |
-          rm -rf /var/media/DATA/github-actions/build-root/build.LibreELEC-Generic.x86_64-11.0-devel/.stamps
-          rm -rf /var/media/DATA/github-actions/build-root/build.LibreELEC-Generic.x86_64-11.0-devel/*
-          echo "ls: $(ls -la /var/media/DATA/github-actions/build-root/build.LibreELEC-Generic.x86_64-11.0-devel)"
+          rm -rf ${{ env.BASEDIR }}/build-root/build.LibreELEC-Generic.x86_64-11.0-devel/.stamps
+          rm -rf ${{ env.BASEDIR }}/build-root/build.LibreELEC-Generic.x86_64-11.0-devel/*
+          echo "ls: $(ls -la ${{ env.BASEDIR }}/build-root/build.LibreELEC-Generic.x86_64-11.0-devel)"
       - name: Build LE at docker image
         run: |
           cd LibreELEC.tv
-          docker run --rm -v /var/media/DATA/github-actions/sources:/sources \
-                          -v /var/media/DATA/github-actions/target:/target \
-                          -v /var/media/DATA/github-actions/build-root:/build-root \
+          docker run --rm -v ${{ env.BASEDIR }}/sources:/sources \
+                          -v ${{ env.BASEDIR }}/target:/target \
+                          -v ${{ env.BASEDIR }}/build-root:/build-root \
                           -v `pwd`:/build \
                           -w /build -i \
                           -e PROJECT=Generic \
@@ -80,10 +91,11 @@ jobs:
                           gh-${{ github.run_id }} make image
           docker image rm -f gh-${{ github.run_id }}
       - name: Upload
+        if: ${{ inputs.upload_to_release == true }}
         run: |
           echo "${{ secrets.KEY }}" > mykey.ssh
           chmod 600 mykey.ssh
           scp -i mykey.ssh -o "StrictHostKeyChecking no" \
               -P ${{ secrets.PORT }} \
-              -p /var/media/DATA/github-actions/target/addon.zip \
+              -p ${{ env.BASEDIR }}/target/addon.zip \
               ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ secrets.UPLOAD_TARGET }}
