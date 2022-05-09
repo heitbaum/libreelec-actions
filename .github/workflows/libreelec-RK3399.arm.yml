@@ -2,6 +2,23 @@ name: libreelec-RK3399.arm
 on:
   # allows to run this workflow manually from the actions tab
   workflow_dispatch:
+    inputs:
+      clean_le:
+        description: 'Should the workflow clean the /build-root'
+        default: false
+        required: false
+        type: boolean
+
+  workflow_run:
+    workflows: [libreelec-nightly]
+    types: [completed]
+    inputs:
+      clean_le:
+        description: 'Should the workflow clean the /build-root'
+        default: false
+        required: false
+        type: boolean
+
 env:
   TZ: Australia/Melbourne
 
@@ -42,6 +59,7 @@ jobs:
           echo "docker images: $(docker images)"
           echo "ls: $(ls -la)"
       - name: Clean LE at docker image
+        if: ${{ inputs.clean_le == true }}
         run: |
           rm -rf /var/media/DATA/github-actions/build-root/build.LibreELEC-RK3399.arm-11.0-devel/.stamps
           rm -rf /var/media/DATA/github-actions/build-root/build.LibreELEC-RK3399.arm-11.0-devel/*
