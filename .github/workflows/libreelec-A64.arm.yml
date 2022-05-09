@@ -68,21 +68,21 @@ jobs:
           #sed -i -e "/^USER docker/i RUN ln -s /usr/bin/gcc-10 /usr/bin/cc" tools/docker/focal/Dockerfile
           #sed -i -e 's/^CCACHE_CACHE_SIZE=.*/CCACHE_CACHE_SIZE="30G"/' config/options
           docker build --pull -t gh-${{ github.run_id }} tools/docker/focal
-      - name: Prepare the LibreELEC.tv directory - dont leave files behind
-        if: ${{ github.event.inputs.ephemeral_within == 'true' }}
-        run: |
-          cd LibreELEC.tv
-          # create links that will be used from within the docker containers
-          [ ! -h sources ] && ln -s /sources .
-          echo "build_dir=/build" >> $GITHUB_ENV
       - name: Prepare the LibreELEC.tv directory - use /build-root and /target
-        if: ${{ github.event.inputs.ephemeral_within == 'false' }}
         run: |
           cd LibreELEC.tv
           # create links that will be used from within the docker containers
           [ ! -h sources ] && ln -s /sources .
           [ ! -h target ] && ln -s /target .
           echo "build_dir=/build-root" >> $GITHUB_ENV
+      - name: Prepare the LibreELEC.tv directory - dont leave files behind
+        if: ${{ github.event.inputs.ephemeral_within == 'true' }}
+        run: |
+          cd LibreELEC.tv
+          # remove target links will be used from within the docker containers
+          [ -h target ] && rm target
+          # overwrite the build_dir=/build
+          echo "build_dir=/build" >> $GITHUB_ENV
       - name: Display environment
         run: |
           cd LibreELEC.tv
