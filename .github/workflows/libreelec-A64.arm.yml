@@ -69,14 +69,14 @@ jobs:
           #sed -i -e 's/^CCACHE_CACHE_SIZE=.*/CCACHE_CACHE_SIZE="30G"/' config/options
           docker build --pull -t gh-${{ github.run_id }} tools/docker/focal
       - name: Prepare the LibreELEC.tv directory - dont leave files behind
-        if: ${{ inputs.ephemeral_within == true }}
+        if: ${{ inputs.ephemeral_within == 'true' }}
         run: |
           cd LibreELEC.tv
           # create links that will be used from within the docker containers
           [ ! -h sources ] && ln -s /sources .
           echo "build_dir=/build" >> $GITHUB_ENV
       - name: Prepare the LibreELEC.tv directory - use /build-root and /target
-        if: ${{ inputs.ephemeral_within == false }}
+        if: ${{ inputs.ephemeral_within == 'false' }}
         run: |
           cd LibreELEC.tv
           # create links that will be used from within the docker containers
@@ -95,7 +95,7 @@ jobs:
           echo "upload_to_release:  ${{ inputs.upload_to_release }}"
           echo "ephemeral_within:  ${{ inputs.ephemeral_within }}"
       - name: Clean LE at docker image
-        if: ${{ inputs.clean_le == true }}
+        if: ${{ inputs.clean_le == 'true' }}
         run: |
           rm -rf ${{ env.BASEDIR }}/build-root/build.LibreELEC-A64.arm-11.0-devel/.stamps
           rm -rf ${{ env.BASEDIR }}/build-root/build.LibreELEC-A64.arm-11.0-devel/*
@@ -116,7 +116,7 @@ jobs:
                           gh-${{ github.run_id }} make image
           docker image rm -f gh-${{ github.run_id }}
       - name: Upload
-        if: ${{ inputs.upload_to_release == true }}
+        if: ${{ inputs.upload_to_release == 'true' }}
         run: |
           echo "${{ secrets.KEY }}" > mykey.ssh
           chmod 600 mykey.ssh
