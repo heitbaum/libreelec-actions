@@ -91,6 +91,9 @@ jobs:
           echo "whoami: $(whoami)"
           echo "docker images: $(docker images)"
           echo "ls: $(ls -la)"
+          echo "clean_le: ${{ inputs.clean_le }}"
+          echo "upload_to_release:  ${{ inputs.upload_to_release }}"
+          echo "ephemeral_within:  ${{ inputs.ephemeral_within }}"
       - name: Clean LE at docker image
         if: ${{ inputs.clean_le == true }}
         run: |
