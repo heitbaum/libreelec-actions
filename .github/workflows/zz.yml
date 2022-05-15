@@ -51,4 +51,4 @@ jobs:
     steps:
       - name: as
         run: |
-          echo "rudi: ${{ needs.check_date.outputs.should_run }}"
+                #echo "rudi: ${{ needs.check_date.outputs.should_run }}"
