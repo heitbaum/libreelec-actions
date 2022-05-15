@@ -27,14 +27,16 @@ jobs:
           fetch-depth: 2
           repository: "LibreELEC/LibreELEC.tv"
           path: "LibreELEC.tv"
-      - name: print latest_commit
-        run: echo ${{ github.sha }}
+      - name: print latest_commit of checked out LibreELEC.tv/LibreELEC.tv
+        run: |
+          cd LibreELEC.tv
+          echo $(git rev-parse HEAD)
       - id: should_run
         continue-on-error: true
         name: check latest commit is less than a day
         run: |
           cd LibreELEC.tv
-          test -z $(git rev-list  --after="24 hours"  ${{ github.sha }}) && echo "::set-output name=should_run::false"
+          test -z $(git rev-list  --after="24 hours" $(git rev-parse HEAD)) && echo "::set-output name=should_run::false"
         
   # Allwinner
   libreelec-A64_arm:
