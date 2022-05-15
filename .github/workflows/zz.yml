@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: as2
         run: |
-          echo "rudi: ${{ needs.check_date.outputs.should_run"
+          echo "rudi: ${{ needs.check_date.outputs.should_run }}"
   libreelec-H3_arm:
     # Only run if there has been a commit in the last 24 hours
     needs: check_date
@@ -51,4 +51,4 @@ jobs:
     steps:
       - name: as
         run: |
-          echo "rudi: ${{ needs.check_date.outputs.should_run"
+          echo "rudi: ${{ needs.check_date.outputs.should_run }}"
