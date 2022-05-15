@@ -58,3 +58,13 @@ jobs:
         run: |
           echo "hello2"
           echo "rudi: ${{ needs.check_date.outputs.should_run }}"
+  libreelec-H3_arm1:
+    runs-on: ubuntu-latest
+    # Only run if there has been a commit in the last 24 hours
+    needs: check_date
+    if: ${{ needs.check_date.outputs.should_run == 'false' }}
+    steps:
+      - name: as
+        run: |
+          echo "hello2"
+          echo "rudi: ${{ needs.check_date.outputs.should_run }}"
