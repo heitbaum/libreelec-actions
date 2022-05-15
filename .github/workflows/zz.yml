@@ -2,14 +2,17 @@ name: zz-MASTER
 on:
   # allows to run this workflow manually from the actions tab
   workflow_dispatch:
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '45 13 * * *'
+    inputs:
+      group:
+        description: 'Should the workflow clean the /build-root'
+        default: bah
+        required: true
+        type: string
 
 env:
   TZ: Australia/Melbourne
   # these ENV variables are not used yet - need to get this working with the with statements below
-  clean_le: no_clean_le
+  clean_le: ${{ inputs.group }}${{ github.event.inputs.group }}
   debug: debug
   ephemeral: ephemeral
   upload: upload
@@ -47,6 +50,7 @@ jobs:
       - name: as2
         run: |
           echo "hello"
+          echo "bah ${{ env.clean_le }}"
           echo "rudi: ${{ needs.check_date.outputs.should_run }}"
   libreelec-H3_arm:
     runs-on: ubuntu-latest
